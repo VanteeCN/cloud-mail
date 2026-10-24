@@ -26,3 +26,4 @@ mail-vue/dist
 .wrangler
 .venv
 git-tools.js
+.update-backups/
