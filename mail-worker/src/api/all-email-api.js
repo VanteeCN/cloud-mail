@@ -2,6 +2,10 @@ import app from '../hono/hono';
 import emailService from '../service/email-service';
 import result from '../model/result';
 
+app.get('/allEmail/detail', async (c) => {
+	return c.json(result.ok(await emailService.detail(c, c.req.query(), null, true)));
+});
+
 app.get('/allEmail/list', async (c) => {
 	const data = await emailService.allList(c, c.req.query());
 	return c.json(result.ok(data));

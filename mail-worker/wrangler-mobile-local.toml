@@ -1,0 +1,24 @@
+# Isolated local-only bindings. Never deploy this configuration.
+name = "cloud-mail-mobile-local"
+main = "src/index.js"
+compatibility_date = "2025-06-04"
+compatibility_flags = ["nodejs_compat"]
+[dev]
+ip = "127.0.0.1"
+port = 18787
+[[d1_databases]]
+binding = "db"
+database_name = "mobile-test-mail"
+database_id = "00000000-0000-0000-0000-000000000001"
+[[kv_namespaces]]
+binding = "kv"
+id = "00000000000000000000000000000001"
+[[r2_buckets]]
+binding = "r2"
+bucket_name = "mobile-local-attachments"
+[vars]
+domain = ["example.test"]
+admin = "admin@example.test"
+jwt_secret = "local-mobile-tests-never-production"
+analysis_cache = false
+orm_log = false

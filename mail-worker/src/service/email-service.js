@@ -25,6 +25,20 @@ import { att } from '../entity/att';
 import telegramService from './telegram-service';
 
 const emailService = {
+	async detail(c, params, userId, administrative = false) {
+		const id = Number(params.emailId);
+		if (!Number.isSafeInteger(id) || id <= 0) throw new BizError('邮件不存在', 404);
+		const row = await this.selectById(c, id);
+		if (!row || (!administrative && (row.userId !== userId || row.isDel !== isDel.NORMAL))) {
+			throw new BizError('邮件不存在', 404);
+		}
+		if (!administrative) {
+			const mailbox = await accountService.selectById(c, row.accountId);
+			if (!mailbox || mailbox.userId !== userId || mailbox.isDel !== isDel.NORMAL) throw new BizError('邮件不存在', 404);
+		}
+		const attachments = await attService.selectByEmailIds(c, [id]);
+		return { ...row, attList: attachments };
+	},
 
 	async list(c, params, userId) {
 

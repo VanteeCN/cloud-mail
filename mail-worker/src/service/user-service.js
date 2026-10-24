@@ -140,6 +140,11 @@ const userService = {
 		num = (num - 1) * size;
 
 		const conditions = [];
+		if (params.userId !== undefined) {
+			const exactUserId = Number(params.userId);
+			if (!Number.isSafeInteger(exactUserId) || exactUserId <= 0) throw new BizError('用户不存在', 404);
+			conditions.push(eq(user.userId, exactUserId));
+		}
 
 		if (status > -1) {
 			conditions.push(eq(user.status, status));
@@ -158,7 +163,21 @@ const userService = {
 
 
 		const query = orm(c).select({
-			...user,
+			userId: user.userId,
+			email: user.email,
+			type: user.type,
+			status: user.status,
+			createTime: user.createTime,
+			activeTime: user.activeTime,
+			activeIp: user.activeIp,
+			createIp: user.createIp,
+			os: user.os,
+			browser: user.browser,
+			device: user.device,
+			sort: user.sort,
+			sendCount: user.sendCount,
+			regKeyId: user.regKeyId,
+			isDel: user.isDel,
 			username: oauth.username,
 			trustLevel: oauth.trustLevel,
 			avatar: oauth.avatar,

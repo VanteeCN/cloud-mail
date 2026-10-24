@@ -3,6 +3,8 @@ import userService from '../service/user-service';
 import result from '../model/result';
 import userContext from '../security/user-context';
 
+app.get('/mobile/capabilities', (c) => c.json(result.ok({ version: 1, exactDetail: true, safeLogout: true })));
+
 app.get('/my/loginUserInfo', async (c) => {
 	const user = await userService.loginUserInfo(c, userContext.getUserId(c));
 	return c.json(result.ok(user));
